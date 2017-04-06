@@ -1,4 +1,7 @@
-module Halogen.VDom.StringRenderer where
+module Halogen.VDom.StringRenderer
+  ( render
+  , TagType(..)
+  ) where
 
 import Prelude
 
@@ -8,6 +11,7 @@ import Data.String as S
 import Data.Tuple (snd)
 
 import Halogen.VDom (VDom(..), ElemSpec(..), ElemName(..), Namespace(..), runGraft)
+import Halogen.VDom.StringRenderer.Util (escape)
 
 -- | Type used to determine whether an element can be rendered as self-closing
 -- | element, for example, "<br/>".
@@ -31,18 +35,19 @@ render getTagType renderAttrs renderWidget = go
   where
   go ∷ VDom a w → String
   go = case _ of
-    Text s → s
+    Text s → escape s
     Elem elem children → renderElement elem children
     Keyed elem kchildren → renderElement elem (map snd kchildren)
     Widget w → renderWidget w
     Grafted g → go (runGraft g)
+
   renderElement ∷ ElemSpec a → Array (VDom a w) → String
   renderElement (ElemSpec mns en@(ElemName name) attrs) children =
     let
       as = renderAttrs attrs
-      as' = maybe as (\(Namespace ns) -> "xmlns=\"" <> ns <> "\"" <> if S.null as then "" else " " <> as) mns
+      as' = maybe as (\(Namespace ns) -> "xmlns=\"" <> escape ns <> "\"" <> if S.null as then "" else " " <> as) mns
     in
-      "<" <> name <> if S.null as then "" else " " <> as <>
+      "<" <> name <> (if S.null as then "" else " ") <> as <>
         if A.null children
         then if getTagType en == SelfClosingTag then "/>" else "</" <> name <> ">"
         else ">" <> S.joinWith "" (map go children) <> "</" <> name <> ">"
