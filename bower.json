@@ -1,5 +1,10 @@
 {
   "name": "purescript-halogen-vdom-string-renderer",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/slamdata/purescript-halogen-vdom-string-renderer.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
