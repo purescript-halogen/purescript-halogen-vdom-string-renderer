@@ -49,5 +49,5 @@ render getTagType renderAttrs renderWidget = go
     in
       "<" <> name <> (if S.null as then "" else " ") <> as <>
         if A.null children
-        then if getTagType en == SelfClosingTag then "/>" else "</" <> name <> ">"
+        then if getTagType en == SelfClosingTag then "/>" else "></" <> name <> ">"
         else ">" <> S.joinWith "" (map go children) <> "</" <> name <> ">"
