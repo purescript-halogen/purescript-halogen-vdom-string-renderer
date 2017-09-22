@@ -13,7 +13,6 @@
   ],
   "dependencies": {
     "purescript-prelude": "^3.0.0",
-    "purescript-console": "^3.0.0",
     "purescript-halogen-vdom": "^2.0.0"
   }
 }
