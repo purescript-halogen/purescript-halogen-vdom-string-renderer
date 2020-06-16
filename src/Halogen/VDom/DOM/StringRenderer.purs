@@ -43,7 +43,10 @@ renderProperty ∷ String → PropValue → Maybe String
 renderProperty name prop = case typeOf (unsafeToForeign prop) of
   "string"  → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
   "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
-  "boolean" → Just $ escape name'
+  "boolean" →
+    if ((unsafeCoerce :: PropValue -> Boolean) prop)
+      then Just $ escape name'
+      else Nothing
   _ → Nothing
   where
   name' = propNameToAttrName name
