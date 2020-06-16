@@ -31,7 +31,7 @@ renderProp = case _ of
   Ref _ → Nothing
 
 renderAttr ∷ String → String → Maybe String
-renderAttr name value = Just $ escape name <> "=\"" <> escape value <> "\""
+renderAttr name value = Just $ escape name <> "=\"" <> value <> "\""
 
 propNameToAttrName ∷ String → String
 propNameToAttrName = case _ of
