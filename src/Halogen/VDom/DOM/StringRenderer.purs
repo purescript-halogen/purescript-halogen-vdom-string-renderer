@@ -37,6 +37,8 @@ propNameToAttrName ∷ String → String
 propNameToAttrName = case _ of
   "htmlFor" → "for"
   "className" → "class"
+  "httpEquiv" → "http-equiv"
+  "acceptCharset" → "accept-charset"
   p → p
 
 renderProperty ∷ String → PropValue → Maybe String
