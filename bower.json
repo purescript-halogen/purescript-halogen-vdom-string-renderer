@@ -3,18 +3,13 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/slamdata/purescript-halogen-vdom-string-renderer.git"
+    "url": "https://github.com/purescript-halogen/purescript-halogen-vdom-string-renderer.git"
   },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "output"
-  ],
+  "ignore": ["**/.*", "node_modules", "bower_components", "output"],
   "dependencies": {
-    "purescript-prelude": "^4.1.1",
-    "purescript-halogen-vdom": "^6.1.0",
-    "purescript-ordered-collections": "^1.6.1",
-    "purescript-foreign": "^5.0.0"
+    "purescript-prelude": "^5.0.0",
+    "purescript-halogen-vdom": "^7.0.0",
+    "purescript-ordered-collections": "^2.0.0",
+    "purescript-foreign": "^6.0.0"
   }
 }

@@ -47,7 +47,7 @@ render getTagType renderAttrs renderWidget = go
       as = renderAttrs attrs
       as' = maybe as (\(Namespace ns) -> "xmlns=\"" <> escape ns <> "\"" <> if S.null as then "" else " " <> as) maybeNamespace
     in
-      "<" <> name <> (if S.null as then "" else " ") <> as <>
+      "<" <> name <> (if S.null as then "" else " ") <> as' <>
         if A.null children
         then if getTagType elemName == SelfClosingTag then "/>" else "></" <> name <> ">"
         else ">" <> S.joinWith "" (map go children) <> "</" <> name <> ">"
