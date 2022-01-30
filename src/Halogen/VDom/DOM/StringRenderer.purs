@@ -1,16 +1,18 @@
 module Halogen.VDom.DOM.StringRenderer (render) where
 
-import Prelude
+import Data.Array as A
+import Data.Maybe (Maybe(..))
+import Data.Number.Format
+import Data.Set as Set
+import Data.String as S
+import Foreign (unsafeToForeign, typeOf)
 import Halogen.VDom (VDom, ElemName(..))
 import Halogen.VDom.DOM.Prop (Prop(..), PropValue)
-import Data.Array as A
-import Foreign (unsafeToForeign, typeOf)
-import Data.Maybe (Maybe(..))
-import Data.String as S
-import Data.Set as Set
 import Halogen.VDom.StringRenderer as VSR
 import Halogen.VDom.StringRenderer.Util (escape)
+import Prelude
 import Unsafe.Coerce (unsafeCoerce)
+import Data.Number.Format (toString)
 
 render ∷ ∀ i w. (w → String) → VDom (Array (Prop i)) w → String
 render renderWidget = VSR.render getTagType renderProps renderWidget
@@ -42,7 +44,7 @@ propNameToAttrName = case _ of
 renderProperty ∷ String → PropValue → Maybe String
 renderProperty name prop = case typeOf (unsafeToForeign prop) of
   "string"  → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
-  "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
+  "number"  → renderAttr name' $ toString ((unsafeCoerce ∷ PropValue → Number) prop)
   "boolean" → Just $ escape name'
   _ → Nothing
   where

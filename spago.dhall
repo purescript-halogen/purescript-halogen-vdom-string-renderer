@@ -16,6 +16,7 @@ to generate this file without the comments in this block.
   , "foreign"
   , "halogen-vdom"
   , "maybe"
+  , "numbers"
   , "ordered-collections"
   , "prelude"
   , "psci-support"
