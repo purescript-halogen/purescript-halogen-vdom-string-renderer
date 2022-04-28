@@ -7,9 +7,9 @@
   },
   "ignore": ["**/.*", "node_modules", "bower_components", "output"],
   "dependencies": {
-    "purescript-prelude": "^5.0.0",
-    "purescript-halogen-vdom": "^7.0.0",
-    "purescript-ordered-collections": "^2.0.0",
-    "purescript-foreign": "^6.0.0"
+    "purescript-prelude": "^6.0.0",
+    "purescript-halogen-vdom": "https://github.com/purescript-halogen/purescript-halogen-vdom.git#purs-0.15",
+    "purescript-ordered-collections": "^3.0.0",
+    "purescript-foreign": "^7.0.0"
   }
 }
