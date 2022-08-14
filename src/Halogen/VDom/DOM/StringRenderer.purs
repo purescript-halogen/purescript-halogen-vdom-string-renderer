@@ -31,19 +31,24 @@ renderProp = case _ of
   Ref _ → Nothing
 
 renderAttr ∷ String → String → Maybe String
-renderAttr name value = Just $ escape name <> "=\"" <> escape value <> "\""
+renderAttr name value = Just $ escape name <> "=\"" <> value <> "\""
 
 propNameToAttrName ∷ String → String
 propNameToAttrName = case _ of
   "htmlFor" → "for"
   "className" → "class"
+  "httpEquiv" → "http-equiv"
+  "acceptCharset" → "accept-charset"
   p → p
 
 renderProperty ∷ String → PropValue → Maybe String
 renderProperty name prop = case typeOf (unsafeToForeign prop) of
   "string"  → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
-  "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
-  "boolean" → Just $ escape name'
+  "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → Number) prop)
+  "boolean" →
+    if ((unsafeCoerce :: PropValue -> Boolean) prop)
+      then Just $ escape name'
+      else Nothing
   _ → Nothing
   where
   name' = propNameToAttrName name
