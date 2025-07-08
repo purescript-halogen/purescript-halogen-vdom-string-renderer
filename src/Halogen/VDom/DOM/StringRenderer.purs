@@ -6,10 +6,11 @@ import Halogen.VDom.DOM.Prop (Prop(..), PropValue)
 import Data.Array as A
 import Foreign (unsafeToForeign, typeOf)
 import Data.Maybe (Maybe(..))
+import Data.Number.Format as Data.Number.Format
 import Data.String as S
 import Data.Set as Set
 import Halogen.VDom.StringRenderer as VSR
-import Halogen.VDom.StringRenderer.Util (escape)
+import Halogen.VDom.StringRenderer.Util (escapeAttributeValue, escapeHtmlEntity)
 import Unsafe.Coerce (unsafeCoerce)
 
 render ∷ ∀ i w. (w → String) → VDom (Array (Prop i)) w → String
@@ -31,19 +32,23 @@ renderProp = case _ of
   Ref _ → Nothing
 
 renderAttr ∷ String → String → Maybe String
-renderAttr name value = Just $ escape name <> "=\"" <> escape value <> "\""
+renderAttr name value = Just $ escapeHtmlEntity name <> "=\"" <> escapeAttributeValue value <> "\""
 
 propNameToAttrName ∷ String → String
 propNameToAttrName = case _ of
   "htmlFor" → "for"
   "className" → "class"
+  "httpEquiv" → "http-equiv"
+  "acceptCharset" → "accept-charset"
   p → p
 
 renderProperty ∷ String → PropValue → Maybe String
 renderProperty name prop = case typeOf (unsafeToForeign prop) of
-  "string"  → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
-  "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
-  "boolean" → Just $ escape name'
+  "string" → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
+  "number" → renderAttr name' $ Data.Number.Format.toString ((unsafeCoerce ∷ PropValue → Number) prop)
+  "boolean" →
+    if ((unsafeCoerce :: PropValue -> Boolean) prop) then Just $ escapeHtmlEntity name'
+    else Nothing
   _ → Nothing
   where
   name' = propNameToAttrName name
